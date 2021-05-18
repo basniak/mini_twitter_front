@@ -16,6 +16,7 @@ export class AppComponent {
   options: FormGroup;
   postagens: any = 'postagens';
   users: any = 'users';
+  usersList: any = null;
   constructor(fb: FormBuilder, private http: HttpClient) {
     this.options = fb.group({
       bottom: 0,
@@ -26,10 +27,11 @@ export class AppComponent {
     this.getUsers();
   }
   getPostagens() {
-    this.http.get<any[]>(this.urlB).subscribe(
+    this.http.get<any[]>(this.urlB + 'posts').subscribe(
       (data) => {
         console.log(data);
         this.postagens = JSON.stringify(data);
+        this.usersList = data;
       },
       (err) => {
         console.log(err);
