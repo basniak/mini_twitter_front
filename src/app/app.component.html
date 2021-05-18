@@ -1,0 +1,26 @@
+<ng-container>
+  <mat-toolbar color="primary" class="example-header"
+    >Mini Tweet BR</mat-toolbar
+  >
+
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav
+      #sidenav
+      mode="side"
+      opened
+      class="example-sidenav"
+      [fixedInViewport]="false"
+      [fixedTopGap]="options.value.top"
+      [fixedBottomGap]="options.value.bottom"
+    >
+      TODO: Futuros usuarios
+      {{ users }}
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      {{ postagens }}
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <mat-toolbar class="example-footer">Footer</mat-toolbar>
+</ng-container>
