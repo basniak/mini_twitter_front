@@ -1,7 +1,17 @@
 <ng-container>
   <mat-toolbar color="primary" class="example-header"
-    >Mini Tweet BR</mat-toolbar
-  >
+    >Mini Tweet BR
+    <span class="example-spacer"></span>
+    <div class="example-button-container">
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Example icon button with a menu icon"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
 
   <mat-sidenav-container class="example-container">
     <mat-sidenav
@@ -13,15 +23,18 @@
       [fixedTopGap]="options.value.top"
       [fixedBottomGap]="options.value.bottom"
     >
-      TODO: Futuros usuarios
-      {{ users }}
-      <app-user-list *ngIf="usersList"  [items]="usersList"></app-user-list>
+      <!-- TODO: Futuros usuarios
+      {{ usersList | json }} -->
+      <app-user-list *ngIf="usersList" [items]="usersList"></app-user-list>
     </mat-sidenav>
 
     <mat-sidenav-content>
-      {{ postagens }}
+      <!-- {{ postagens | json }} -->
+      <app-posts-list *ngIf="postagens" [items]="postagens"></app-posts-list>
     </mat-sidenav-content>
   </mat-sidenav-container>
 
-  <mat-toolbar class="example-footer">Footer</mat-toolbar>
+  <mat-toolbar class="example-footer"
+    >Trabalho web 2 por Ykaro & Vinicius</mat-toolbar
+  >
 </ng-container>

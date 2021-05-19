@@ -8,7 +8,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { DemoMaterialModule } from './material.module';
+import { DemoMaterialModule } from './material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
@@ -17,6 +17,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { PostsListComponent } from './posts-list/posts-list.component';
 import { UserComponent } from './user/user.component';
 import { PostComponent } from './post/post.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 var firebaseConfig = {
   apiKey: 'AIzaSyBHgAqu1Dy4FR9h9QDLviv1Oio4G1MxLI4',
   authDomain: 'minitwitter-13a22.firebaseapp.com',
@@ -26,7 +27,13 @@ var firebaseConfig = {
   appId: '1:448185174434:web:8a3f0c793bfd45f76e0afb',
 };
 @NgModule({
-  declarations: [AppComponent, UserListComponent, PostsListComponent, UserComponent, PostComponent],
+  declarations: [
+    AppComponent,
+    UserListComponent,
+    PostsListComponent,
+    UserComponent,
+    PostComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -38,6 +45,7 @@ var firebaseConfig = {
     HttpClientModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
+    FlexLayoutModule,
   ],
   entryComponents: [AppComponent],
   providers: [

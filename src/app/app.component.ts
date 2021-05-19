@@ -11,12 +11,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'tweetbr';
+  title = 'mini';
   urlB = environment.url_base;
   options: FormGroup;
-  postagens: any = 'postagens';
-  users: any = 'users';
-  usersList: any = null;
+  postagens: any = [];
+  usersList: any = [];
   constructor(fb: FormBuilder, private http: HttpClient) {
     this.options = fb.group({
       bottom: 0,
@@ -30,8 +29,8 @@ export class AppComponent {
     this.http.get<any[]>(this.urlB + 'posts').subscribe(
       (data) => {
         console.log(data);
-        this.postagens = JSON.stringify(data);
-        this.usersList = data;
+        // this.postagens = JSON.stringify(data);
+        this.postagens = data;
       },
       (err) => {
         console.log(err);
@@ -42,7 +41,7 @@ export class AppComponent {
     this.http.get<any[]>(this.urlB + 'users').subscribe(
       (data) => {
         console.log(data);
-        this.users = JSON.stringify(data);
+        this.usersList = data;
       },
       (err) => {
         console.log(err);

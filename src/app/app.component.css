@@ -1,6 +1,7 @@
-.example-spacer {
+
+/* .example-spacer {
   flex: 1 1 auto;
-}
+} */
 .example-container {
   position: absolute;
   top: 60px;
@@ -14,7 +15,7 @@
   align-items: center;
   justify-content: center;
   width: 200px;
-  background: rgba(6, 115, 216, 0.5);
+  background: rgba(10, 117, 218, 0.37);
 }
 
 .example-header {

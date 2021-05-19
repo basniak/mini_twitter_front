@@ -1,1 +1,5 @@
-<p>posts-list works!</p>
+<div fxLayout="column" fxLayoutAlign="start stretch">
+  <ng-container *ngFor="let item of items">
+    <app-post [post]="item"></app-post>
+  </ng-container>
+</div>
