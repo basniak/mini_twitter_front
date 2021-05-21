@@ -52,6 +52,7 @@ import { environment } from 'src/environments/environment';
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
+    FlexLayoutModule,
   ],
   entryComponents: [AppComponent],
   providers: [
