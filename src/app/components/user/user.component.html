@@ -1,12 +1,12 @@
-<mat-card class="example-card">
+<!-- <mat-card class="example-card">
   <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{ user.username }}</mat-card-title>
-    <mat-card-subtitle>teste</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-actions>
     <button mat-button>LIKE</button>
     <button mat-button>SHARE</button>
   </mat-card-actions>
-</mat-card>
+</mat-card> -->
+<a mat-list-item href="/" *ngIf="user.username"> {{ user.username }} </a>
+<mat-divider></mat-divider>

@@ -1,0 +1,47 @@
+<ng-container>
+  <mat-toolbar color="primary" class="example-header"
+    >Mini Tweet BR
+    <span class="example-spacer"></span>
+    <div class="example-button-container">
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Example icon button with a menu icon"
+        (click)="auth.SignOut()"
+      >
+        <mat-icon>face</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav
+      #sidenav
+      mode="side"
+      opened
+      class="example-sidenav"
+      [fixedInViewport]="false"
+      [fixedTopGap]="0"
+      [fixedBottomGap]="0"
+    >
+      <!-- TODO: Futuros usuarios
+      {{ usersList | json }} -->
+      <app-user-list
+        *ngIf="api.usersList"
+        [items]="api.usersList"
+      ></app-user-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <!-- {{ postagens | json }} -->
+      <app-posts-list
+        *ngIf="api.postagens"
+        [items]="api.postagens"
+      ></app-posts-list>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <mat-toolbar class="example-footer" matRipple>
+    Trabalho web 2 por Ykaro & Vinicius
+  </mat-toolbar>
+</ng-container>

@@ -12,41 +12,8 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent {
   title = 'tweetbr';
-  urlB = environment.url_base;
-  options: FormGroup;
-  postagens: any = 'postagens';
-  users: any = 'users';
-  usersList: any = null;
-  constructor(fb: FormBuilder, private http: HttpClient) {
-    this.options = fb.group({
-      bottom: 0,
-      fixed: false,
-      top: 0,
-    });
-    this.getPostagens();
-    this.getUsers();
-  }
-  getPostagens() {
-    this.http.get<any[]>(this.urlB + 'posts').subscribe(
-      (data) => {
-        console.log(data);
-        this.postagens = JSON.stringify(data);
-        this.usersList = data;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
-  getUsers() {
-    this.http.get<any[]>(this.urlB + 'users').subscribe(
-      (data) => {
-        console.log(data);
-        this.users = JSON.stringify(data);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+  constructor() {
+    // this.getPostagens();
+    // this.getUsers();
   }
 }
