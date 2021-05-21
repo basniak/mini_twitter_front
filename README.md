@@ -1,4 +1,7 @@
 # Tweetbr
+Vinicius A. Basniak. RA: 1771345 Ykaro J. S. Andrade. RA: 1750607
+
+Trabalho desenvolvido para PROJETO-2 da disciplina de Web 2, do curso de Engenharia de Software, da UTFPR. Para ultilização do firebase usamos o seguinte tutorial abaixo. https://www.positronx.io/full-angular-7-firebase-authentication-system/ A ferramenta do firebase foi utilizada para hospedagem do front-end e autenticação dos usuários. Foi utilizado o seguinte tutorial abaixo para fazer a hospedagem do front-end. https://www.positronx.io/deploy-angular-app-to-production-with-firebase-hosting/ Uma instância do banco de dados do postgresql no heroku. O Heroku foi utilizado para hospedagem da API, com integração contínua com o repositório do projeto.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
 
