@@ -6,6 +6,9 @@ Trabalho desenvolvido para PROJETO-2 da disciplina de Web 2, do curso de Engenha
 publicado:
 https://minitwitter-13a22.web.app/
 
+link da api:
+https://tweetbr.herokuapp.com/
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
 
 ## Development server
