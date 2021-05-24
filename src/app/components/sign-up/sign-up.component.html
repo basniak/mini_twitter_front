@@ -2,42 +2,36 @@
   <div class="displayTableCell">
     <div class="authBlock">
       <h3>Sign Up</h3>
+      <form class="needs-validation" novalidate #formUp>
+        <div class="input-group">
+          <label for="Username">Username</label>
+          <input type="text" class="formControl form-control  is-valid" id="Username" placeholder="Username" #userName
+            required />
+        </div>
+        <div class="formGroup">
+        </div>
+        <div class="formGroup">
+          <label for="email">Email address</label>
+          <input type="email" class="formControl  form-control  is-valid" id="email" placeholder="Email Address"
+            #userEmail required />
 
-      <div class="formGroup">
-        <input
-          type="email"
-          class="formControl"
-          placeholder="Email Address"
-          #userEmail
-          required
-        />
-      </div>
-
-      <div class="formGroup">
-        <input
-          type="password"
-          class="formControl"
-          placeholder="Password"
-          #userPwd
-          required
-        />
-      </div>
-
-      <div class="formGroup">
-        <input
-          type="button"
-          class="btn btnPrimary"
-          value="Sign Up"
-          (click)="authService.SignUp(userEmail.value, userPwd.value)"
-        />
-      </div>
+        </div>
+        <div class="formGroup">
+          <label for="pass">Password</label>
+          <input type="password" class="formControl  form-control  is-valid" id="pass" placeholder="Password" #userPwd
+            required />
+        </div>
+        <div class="formGroup">
+          <input type="submit" class="btn btnPrimary" value="Sign Up"
+            (click)="criarUsuario($event ,userEmail.value, userPwd.value, userName.value, formUp)" />
+        </div>
+      </form>
     </div>
 
+
     <div class="redirectToLogin">
-      <span
-        >Already have an account?
-        <span class="redirect" routerLink="/sign-in">Log In</span></span
-      >
+      <span>Already have an account?
+        <span class="redirect" routerLink="/sign-in">Log In</span></span>
     </div>
   </div>
 </div>

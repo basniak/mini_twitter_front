@@ -1,43 +1,27 @@
 <ng-container>
-  <mat-toolbar color="primary" class="example-header"
-    >Mini Tweet BR
+  <mat-toolbar color="primary" class="example-header">Mini Tweet BR
     <span class="example-spacer"></span>
+    <h4 *ngIf="title">Bem vindo @{{title}}</h4>
     <div class="example-button-container">
-      <button
-        mat-mini-fab
-        color="primary"
-        aria-label="Example icon button with a menu icon"
-        (click)="auth.SignOut()"
-      >
-        <mat-icon>face</mat-icon>
+      <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="auth.SignOut()">
+        <mat-icon>logout</mat-icon>
       </button>
     </div>
   </mat-toolbar>
 
   <mat-sidenav-container class="example-container">
-    <mat-sidenav
-      #sidenav
-      mode="side"
-      opened
-      class="example-sidenav"
-      [fixedInViewport]="false"
-      [fixedTopGap]="0"
-      [fixedBottomGap]="0"
-    >
+    <mat-sidenav #sidenav mode="side" opened class="example-sidenav" [fixedInViewport]="false" [fixedTopGap]="0"
+      [fixedBottomGap]="0">
       <!-- TODO: Futuros usuarios
       {{ usersList | json }} -->
-      <app-user-list
-        *ngIf="api.usersList"
-        [items]="api.usersList"
-      ></app-user-list>
+      <app-user-list *ngIf="usersList" [items]="usersList"></app-user-list>
     </mat-sidenav>
 
     <mat-sidenav-content>
       <!-- {{ postagens | json }} -->
-      <app-posts-list
-        *ngIf="api.postagens"
-        [items]="api.postagens"
-      ></app-posts-list>
+      <div *ngIf="show">
+        <app-posts-list [items]="postagensList" [getposts]="reLoad"></app-posts-list>
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 

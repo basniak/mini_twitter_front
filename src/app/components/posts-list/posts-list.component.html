@@ -1,5 +1,22 @@
-<div fxLayout="column" fxLayoutAlign="start stretch">
-  <ng-container *ngFor="let item of items">
-    <app-post [post]="item"></app-post>
-  </ng-container>
+<div style="height: 100%;">
+  <div fxLayout="column" fxLayoutAlign="start stretch">
+    <ng-container>
+      <div fxLayout="column" fxLayoutAlign="start stretch" style=" margin: 10px 10%;">
+        <form>
+          <div fxLayout="column" fxLayoutAlign="start stretch">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Poste algo para o mundo!</mat-label>
+              <textarea matInput placeholder="O que você tem em mente?" #frase></textarea>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" (click)="enviarPost(frase.value)">Publicar</button>
+          </div>
+        </form>
+      </div>
+
+    </ng-container>
+    <ng-container *ngFor="let item of items">
+      <app-post [post]="item"></app-post>
+    </ng-container>
+  </div>
 </div>

@@ -1,9 +1,13 @@
+import { AuthService } from 'src/app/service/auth-service.service';
+import { User } from './../shared/services/user';
 import {
   HttpClient,
   HttpEvent,
   HttpHandler,
   HttpRequest,
   HttpResponse,
+  HttpHeaders,
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,77 +16,87 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class ApiServiceService {
+export class ApiServiceService implements HttpInterceptor {
   urlB = environment.url_base;
   private requests: HttpRequest<any>[] = [];
-
+  public refreshToken = '';
   public isLoading = new BehaviorSubject(false);
   public postagens: any = [];
   public usersList: any = [];
+  // public headers = new HttpHeaders()
+  //   .set('content-type', 'application/json')
+  //   .set('Access-Control-Allow-Origin', '*');
+  // .set('Authorization', `Bearer INVALIDO`);
 
   constructor(private http: HttpClient) {}
   public getPostagens() {
-    this.http.get<any[]>(this.urlB + 'posts').subscribe(
-      (data) => {
-        console.log(data);
-        this.postagens = data;
-      },
-      (err) => {
-        console.log(err);
+    const headers = new HttpHeaders()
+      .set('content-type', 'application/json')
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Authorization', `Bearer ${this.refreshToken}`);
+    return this.http.get<any[]>(this.urlB + 'posts', {
+      headers: headers,
+    });
+    // .subscribe(
+    //   (data) => {
+    //     console.log(data);
+    //     this.postagens = data;
+    //   },
+    //   (err) => {
+    //     console.log(err);
+    //     window.alert(err.message);
+    //   }
+    // );
+  }
+  public createPost(frase: any) {
+    const headers = new HttpHeaders()
+      .set('content-type', 'application/json')
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Authorization', `Bearer ${this.refreshToken}`);
+    return this.http.post<any[]>(
+      this.urlB + 'posts',
+      { tweet: frase },
+      {
+        headers: headers,
       }
     );
+  }
+  public createUserApi(username: string, user: any, token: any) {
+    const userData = {
+      uid: user.uid,
+      email: user.email,
+      username: username,
+    };
+    this.refreshToken = token;
+    const headers = new HttpHeaders()
+      .set('content-type', 'application/json')
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Authorization', `Bearer ${this.refreshToken}`);
+
+    return this.http.post<any[]>(this.urlB + 'users', userData, {
+      headers: headers,
+    });
   }
   public getUsers() {
-    this.http.get<any[]>(this.urlB + 'users').subscribe(
-      (data) => {
-        console.log(data);
-        this.usersList = data;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    const headers = new HttpHeaders()
+      .set('content-type', 'application/json')
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Authorization', `Bearer ${this.refreshToken}`);
+    return this.http.get<any[]>(this.urlB + 'users', {
+      headers: headers,
+    });
   }
-  removeRequest(req: HttpRequest<any>) {
-    const i = this.requests.indexOf(req);
-    if (i >= 0) {
-      this.requests.splice(i, 1);
-    }
-    this.isLoading.next(this.requests.length > 0);
-  }
-
   intercept(
-    req: HttpRequest<any>,
+    request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    this.requests.push(req);
-    // //("No of requests--->" + this.requests.length);
-    // this.isLoading.next(true);
-    return Observable.create((observer: any) => {
-      const subscription = next.handle(req).subscribe(
-        (event) => {
-          if (event instanceof HttpResponse) {
-            this.removeRequest(req);
-            observer.next(event);
-          }
+    if (this.refreshToken) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${this.refreshToken}`,
         },
-        (err) => {
-          // alert('error returned');
-          this.removeRequest(req);
-          observer.error(err);
-        },
-        () => {
-          this.removeRequest(req);
-
-          observer.complete();
-        }
-      );
-      // remove request from queue when cancelled
-      return () => {
-        this.removeRequest(req);
-
-        subscription.unsubscribe();
-      };
-    });
+      });
+    }
+    return next.handle(request);
   }
 }

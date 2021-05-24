@@ -1,3 +1,4 @@
+import { ApiServiceService } from './api-service.service';
 import { User } from './../shared/services/user';
 import * as firebase from 'firebase/app';
 import { Injectable, NgZone } from '@angular/core';
@@ -12,21 +13,28 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  userData: any; // Save logged in user data
+  public userData: any; // Save logged in user data
 
   constructor(
     // public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    public ngZone: NgZone // NgZone service to remove outside scope warning
+    public ngZone: NgZone,
+    public api: ApiServiceService // NgZone service to remove outside scope warning
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.userData = user;
+        user.getIdToken(true).then((id: any) => {
+          this.api.refreshToken = id;
+        });
+        // this.api.refreshToken = this.userData.refreshToken;
         localStorage.setItem('user', JSON.stringify(this.userData));
         // JSON.parse(localStorage.getItem('user'));
+        // this.SetUserData(this.userData);
+        this.router.navigate(['home']);
       } else {
         localStorage.setItem('user', '');
         // JSON.parse(localStorage.getItem('user'));
@@ -40,11 +48,10 @@ export class AuthService {
       .signInWithEmailAndPassword(email, password)
       .then((result: any) => {
         this.ngZone.run(() => {
+          this.SetUserData(result.user);
           this.router.navigate(['home']);
-
           // this.SendVerificationMail();
         });
-        this.SetUserData(result.user);
       })
       .catch((error: any) => {
         window.alert(error.message);
@@ -52,15 +59,29 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  public SignUp(email: string, password: string) {
+  public SignUp(email: string, password: string, username: string) {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
-      .then((result: any) => {
+      .then(async (result: any) => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
         this.SendVerificationMail();
-        // this.SetUserData(result.user);
+        this.SetUserData(result.user);
         // result.user.
+        if (result?.user) {
+          let token = await result?.user.getIdToken(true);
+          this.api.createUserApi(username, result?.user, token).subscribe(
+            (data) => {
+              console.log(data);
+              // this.usersList = data;
+              this.router.navigate(['home']);
+            },
+            (err: any) => {
+              console.log(err);
+              window.alert(err.message);
+            }
+          );
+        }
       })
       .catch((error: any) => {
         window.alert(error.message);
@@ -104,11 +125,14 @@ export class AuthService {
   AuthLogin(provider: any) {
     return this.afAuth
       .signInWithPopup(provider)
-      .then((result) => {
+      .then((result: any) => {
         this.ngZone.run(() => {
-          this.router.navigate(['home']);
+          result.user.getIdToken(true).then((id: any) => {
+            this.api.refreshToken = id;
+            this.SetUserData(result.user);
+            this.router.navigate(['home']);
+          });
         });
-        this.SetUserData(result.user);
       })
       .catch((error) => {
         window.alert(error);
@@ -120,6 +144,7 @@ export class AuthService {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['sign-in']);
+      this.api.refreshToken = '';
     });
   }
   SetUserData(user: any) {
@@ -130,5 +155,8 @@ export class AuthService {
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
     };
+    user.getIdToken(true).then((id: any) => {
+      this.api.refreshToken = id;
+    });
   }
 }
